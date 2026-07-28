@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: cherrypro-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile.backend
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "False"
+      - key: HOST
+        value: "0.0.0.0"
+      - key: PORT
+        value: "8000"
+      - key: DATABASE_URL
+        value: sqlite:////data/ai_interview_assistant.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: GEMINI_API_KEY
+        sync: false   # You will set this manually in Render dashboard
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: UPLOAD_DIR
+        value: /data/uploads
+      - key: MAX_UPLOAD_SIZE_MB
+        value: "10"
+    disk:
+      name: cherrypro-data
+      mountPath: /data
+      sizeGB: 1
+
+  - type: web
+    name: cherrypro-frontend
+    runtime: docker
+    dockerfilePath: ./Dockerfile.frontend
+    plan: free
+    envVars:
+      - key: BACKEND_API_URL
+        fromService:
+          name: cherrypro-backend
+          type: web
+          property: host
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: "true"

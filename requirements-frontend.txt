@@ -1,0 +1,9 @@
+# Frontend only requirements
+streamlit>=1.32.2
+streamlit-option-menu>=0.3.12
+extra-streamlit-components>=0.1.70
+requests>=2.31.0
+plotly>=5.20.0
+pandas>=2.2.1
+matplotlib>=3.8.3
+python-dotenv>=1.0.1
