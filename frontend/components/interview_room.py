@@ -20,7 +20,8 @@ def render_interview_room_page():
     curr_q_num = question["question_number"]
 
     # Header & Progress Bar
-    st.markdown(f"## 🎙️ {company} • {role} Interview Room")
+    header_title = f"🎙️ {role} Interview Room" if company == "General" else f"🎙️ {company} • {role} Interview Room"
+    st.markdown(f"## {header_title}")
     
     # Progress Calculation
     progress_val = min(1.0, curr_q_num / float(total_q))
